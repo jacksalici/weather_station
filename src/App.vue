@@ -81,7 +81,7 @@ watchEffect(async () => {
     <div class="stats stats-vertical md:stats-horizzontal shadow-xl">
       <div class="stat">
         <div class="stat-figure text-secondary">
-          <div class="w-12">
+          <div class="w-16">
             <img
               src="https://img.icons8.com/fluency/hygrometer.svg"
               alt="hygrometer"
@@ -91,25 +91,25 @@ watchEffect(async () => {
         <div class="stat-title">Current rainfall rate</div>
         <div class="stat-value">
           {{ istant_query.data.rainfall.rain_rate.value}}
-          <span class="text-sm">mm/h</span>
+          <span class="text-sm">{{ istant_query.data.rainfall.rain_rate.unit}}</span>
         </div>
         <div class="stat-desc">
-          Last 5 min <br />
-          Hourly: 4 mm
+          in the last 5 min. <br />
+          Hourly: {{istant_query.data.rainfall.hourly.value}} {{istant_query.data.rainfall.hourly.unit}} 
         </div>
       </div>
 
       <div class="stat">
         <div class="stat-figure text-secondary">
-          <div class="w-12">
+          <div class="w-16">
             <img src="https://img.icons8.com/fluency/rain.svg" alt="rain" />
           </div>
         </div>
         <div class="stat-title">Total rainfall event</div>
         <div class="stat-value">
-          {{ istant_query.data.rainfall.event.value }} <span class="text-sm">mm</span>
+          {{ istant_query.data.rainfall.event.value }} <span class="text-sm">{{ istant_query.data.rainfall.event.unit }}</span>
         </div>
-        <div class="stat-desc">Weekly: mm<br />Monthly: mm<br />Yearly: mm</div>
+        <div class="stat-desc">Weekly: {{istant_query.data.rainfall.weekly.value}} {{istant_query.data.rainfall.weekly.unit}}<br />Monthly: {{istant_query.data.rainfall.monthly.value}} {{istant_query.data.rainfall.monthly.unit}}<br />Yearly: {{istant_query.data.rainfall.yearly.value}} {{istant_query.data.rainfall.yearly.unit}}</div>
       </div>
     </div>
 
@@ -117,7 +117,7 @@ watchEffect(async () => {
     <div class="stats stats-vertical md:stats-horizzontal shadow-xl">
       <div class="stat">
         <div class="stat-figure text-secondary">
-          <div class="w-12">
+          <div class="w-16">
             <img
               src="https://img.icons8.com/fluency/temperature-outside.svg"
               alt="temperature-outside"
@@ -125,26 +125,55 @@ watchEffect(async () => {
           </div>
         </div>
         <div class="stat-title">Outdoor temperature</div>
-        <div class="stat-value">31<span class="text-sm">°C</span></div>
+        <div class="stat-value">{{istant_query.data.outdoor.temperature.value}} <span class="text-sm">{{istant_query.data.outdoor.temperature.unit}}</span></div>
         <div class="stat-desc">
-          Day <br />
-          Hourly: 4 mm
+         
         </div>
       </div>
 
       <div class="stat">
         <div class="stat-figure text-secondary">
-          <div class="w-12">
+          <div class="w-16">
             <img src="https://img.icons8.com/fluency/wet.svg" alt="wet" />
           </div>
         </div>
         <div class="stat-title">Outdoor humidity</div>
-        <div class="stat-value">23 <span class="text-sm">mm</span></div>
+        <div class="stat-value">{{istant_query.data.outdoor.humidity.value}} <span class="text-sm">{{istant_query.data.outdoor.humidity.unit}}</span></div>
         <div class="stat-desc">
-          Weekly: 45 mm<br />Monthly: 123 mm<br />Yearly: 234 mm
+        </div>
+      </div>
+    </div>
+
+     <!--INDOOR STATS-->
+     <div class="stats stats-vertical md:stats-horizzontal shadow-xl">
+      <div class="stat">
+        <div class="stat-figure text-secondary">
+          <div class="w-16">
+            <img
+              src="https://img.icons8.com/fluency/temperature-inside.svg"
+              alt="temperature-outside"
+            />
+          </div>
+        </div>
+        <div class="stat-title">Indoor temperature</div>
+        <div class="stat-value">{{istant_query.data.indoor.temperature.value}} <span class="text-sm">{{istant_query.data.indoor.temperature.unit}}</span></div>
+        <div class="stat-desc">
+         
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-figure text-secondary">
+          <div class="w-16">
+            <img src="https://img.icons8.com/fluency/humidity.svg" alt="humidity" />
+          </div>
+        </div>
+        <div class="stat-title">Indoor humidity</div>
+        <div class="stat-value">{{istant_query.data.indoor.humidity.value}} <span class="text-sm">{{istant_query.data.indoor.humidity.unit}}</span></div>
+        <div class="stat-desc">
         </div>
       </div>
     </div>
   </div>
-  {{ data }}
+  
 </template>
