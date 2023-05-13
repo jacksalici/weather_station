@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+
+
+    <title>Mirandola Weather Station</title>
+</head>
+
+<body>
+    <div class="page">
+        <header class="navbar navbar-expand-sm navbar-light d-print-none">
+          <div class="container-xl">
+            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+              Weather Station
+            </h1>
+            
+            <div class="d-none d-md-flex">
+              <a id="darkModeSwitch" class="nav-link px-0 hide-theme-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Enable dark mode" data-bs-original-title="Enable dark mode">
+                <!-- Download SVG icon from http://tabler-icons.io/i/moon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path></svg>
+              </a>
+              <a id="darkModeSwitch" class="nav-link px-0 hide-theme-light" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Enable light mode" data-bs-original-title="Enable light mode">
+                <!-- Download SVG icon from http://tabler-icons.io/i/sun -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path><path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path></svg>
+              </a>
+              
+            </div>
+          </div>
+        </header>
+        <div class="page-wrapper">
+          <div class="page-body">
+            <div class="container-xl">
+              <div class="row row-deck row-cards">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-md">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <div class="card-title"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-temperature" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                  <path d="M10 13.5a4 4 0 1 0 4 0v-8.5a2 2 0 0 0 -4 0v8.5"></path>
+                                  <path d="M10 9l4 0"></path>
+                               </svg>Outdoor Temperature</div>
+                              </div>
+
+                        </div>
+                      
+                        <div class="card-body">
+                        
+                        <div class="d-flex align-items-baseline">
+                          <div class="h1 mb-0 me-2">18°C</div>
+                          <div class="me-auto">
+                            <span class="text-green d-inline-flex align-items-center lh-1">
+                              +2°C/h <!-- Download SVG icon from http://tabler-icons.io/i/trending-up -->
+                              <svg xmlns="http://www.w3.org/2000/svg" class="icon ms-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 17l6 -6l4 4l8 -8"></path><path d="M14 7l7 0l0 7"></path></svg>
+                            </span>
+                          </div>
+                        </div>
+
+                    </div>
+                    </div>
+                  </div> 
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script>
+        document.getElementById('darkModeSwitch').addEventListener('click',()=>{
+    if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
+        document.documentElement.setAttribute('data-bs-theme','light')
+        document.body.setAttribute('class', '')
+    }
+    else {
+        document.documentElement.setAttribute('data-bs-theme','dark')
+        document.body.setAttribute('class', 'theme-dark')
+    }
+})
+      </script>
+</body>
+</html>
