@@ -1,0 +1,4 @@
+flask
+gunicorn
+deta
+python-dotenv
