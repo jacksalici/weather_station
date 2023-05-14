@@ -76,8 +76,8 @@ onUnmounted(() => {
     <div class="flex-1">
       <a class="btn btn-ghost normal-case text-xl">Mirandola Weather Station</a>
     </div>
-    <div class="flex-none">
-      <button class="btn btn-square btn-ghost">
+    <div class="dropdown dropdown-end">
+      <label tabindex="0" class="btn btn-ghost btn-square">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -90,8 +90,20 @@ onUnmounted(() => {
             stroke-width="2"
             d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
           ></path>
-        </svg>
-      </button>
+        </svg>      </label>
+      <ul tabindex="0" class="menu menu-compact dropdown-content  p-2 shadow-xl bg-base-100 rounded-box w-36">
+        <li><label class="flex-1" for="my-modal-6"><img
+              class="h-8"
+              src="https://img.icons8.com/fluency/administrative-tools.svg"
+              alt="settings"
+            /> Settings</label></li>
+        <li><a><img
+              class="h-8"
+              src="https://img.icons8.com/fluency/about.svg"
+              alt="about"
+            /> About</a></li>
+            
+      </ul>
     </div>
   </div>
 
@@ -343,5 +355,19 @@ onUnmounted(() => {
     <p>Developed and designed by <a class="link font-bold" href="https://jacksalici.com">jacksalici</a><br/>MIT Licence {{ moment().format('YYYY') }} - Icons by <a class="link" href="https://icons8.com/">Icons8</a></p>
   </div>
 </footer>
+
+<input type="checkbox" id="my-modal-6" class="modal-toggle" />
+<label for="my-modal-6" class="modal cursor-pointer modal-bottom sm:modal-middle">
+  <label class="modal-box relative">
+    <h3 class="font-bold text-lg">Sort of ettings</h3>
+    
+    <div class="form-control">
+  <label class="label cursor-pointer">
+    <span class="label-text">Sow more data</span> 
+    <input type="checkbox" class="toggle" />
+  </label>
+  </div>
+  </label>
+</label>
 
 </template>

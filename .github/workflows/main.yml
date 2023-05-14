@@ -1,6 +1,6 @@
 # https://github.com/sitek94/vite-deploy-demo
 
-name: Deploy
+name: vue to gh-pages
 
 on:
   push:
