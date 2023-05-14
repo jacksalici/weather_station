@@ -48,7 +48,7 @@ var istant_query = ref({
 
 var loading = ref({status: true, text:"Loading..."});
 
-
+var showMoreData = ref(false)
 
 async function updateData(){
   loading.value = {status: true, text:"Loading..."};
@@ -298,7 +298,7 @@ onUnmounted(() => {
   </div>
 
   <h1
-    class="text-2xl font-bold m-2 mb-4 mt-6 bg-base-100 shadow-xl p-5 rounded-xl"
+    class="text-2xl font-bold m-2 mb-4 mt-6 bg-base-100 shadow-xl p-5 rounded-xl"  v-if="showMoreData"
   >
     Other Stats
     <span class="btn btn-xs btn-ghost no-animation" @click="updateData" :class="{ loading : loading.status }"
@@ -306,7 +306,7 @@ onUnmounted(() => {
     >
   </h1>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-2">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-2" v-if="showMoreData">
     <!--INDOOR STATS-->
     <div class="stats stats-vertical md:stats-horizontal shadow-xl">
       <div class="stat">
@@ -363,8 +363,8 @@ onUnmounted(() => {
     
     <div class="form-control">
   <label class="label cursor-pointer">
-    <span class="label-text">Sow more data</span> 
-    <input type="checkbox" class="toggle" />
+    <span class="label-text">Show more data</span> 
+    <input type="checkbox" class="toggle" v-model="showMoreData"/>
   </label>
   </div>
   </label>
