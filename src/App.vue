@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted, watch, ref, watchEffect } from "vue";
+import { onMounted, onUnmounted, watch, ref, watchEffect } from "vue";
+import moment from "moment"
 
 const api_url = `https://weather-station-api.jacksalici.workers.dev/`;
 
@@ -45,11 +46,29 @@ var istant_query = ref({
   },
 });
 
-watchEffect(async () => {
+var loading = ref({status: true, text:"Loading..."});
+
+
+
+async function updateData(){
+  loading.value = {status: true, text:"Loading..."};
   const res = await fetch(api_url);
   istant_query.value = await res.json();
   console.log(istant_query);
-}).bind();
+  loading.value = {status: false, text:`Updated at ${moment(istant_query.value.time * 1000).format('HH:mm')}`};
+}
+
+
+watchEffect(async () => {
+  updateData()
+  
+});
+
+
+onUnmounted(() => {
+  cancelAnimationFrame(handle)
+})
+
 </script>
 
 <template>
@@ -76,9 +95,12 @@ watchEffect(async () => {
     </div>
   </div>
 
-  
-  <h1 class="text-2xl font-bold	m-2 mb-4 bg-base-100 shadow-xl p-5 rounded-xl">Weather Data <span class=" badge badge-outline badge-info">updated</span></h1>
-
+  <h1 class="text-2xl font-bold m-2 mb-4 bg-base-100 shadow-xl p-5 rounded-xl">
+    Istant Data
+    <span class="btn btn-xs btn-ghost no-animation" @click="updateData" :class="{ loading : loading.status }"
+      >{{loading.text}}</span
+    >
+  </h1>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-2">
     <!--RAIN-->
@@ -157,7 +179,10 @@ watchEffect(async () => {
       <div class="stat">
         <div class="stat-figure text-secondary">
           <div class="w-16">
-            <img src="https://img.icons8.com/fluency/barometer-gauge.svg" alt="barometer-gauge" />
+            <img
+              src="https://img.icons8.com/fluency/barometer-gauge.svg"
+              alt="barometer-gauge"
+            />
           </div>
         </div>
         <div class="stat-title">Outdoor humidity</div>
@@ -173,7 +198,6 @@ watchEffect(async () => {
         </div>
       </div>
     </div>
-
 
     <!--SOLAR AND UVI-->
     <div class="stats stats-vertical md:stats-horizontal shadow-xl">
@@ -234,7 +258,10 @@ watchEffect(async () => {
             istant_query.data.wind.wind_speed.unit
           }}</span>
         </div>
-        <div class="stat-desc">Gust: {{istant_query.data.wind.wind_gust.value}}{{istant_query.data.wind.wind_gust.unit}}</div>
+        <div class="stat-desc">
+          Gust: {{ istant_query.data.wind.wind_gust.value
+          }}{{ istant_query.data.wind.wind_gust.unit }}
+        </div>
       </div>
 
       <div class="stat">
@@ -258,11 +285,16 @@ watchEffect(async () => {
     </div>
   </div>
 
-  <h1 class="text-2xl font-bold	m-2 mb-4 mt-6 bg-base-100 shadow-xl p-5 rounded-xl">Other Stats <span class=" badge badge-outline badge-info">updated</span></h1>
-
+  <h1
+    class="text-2xl font-bold m-2 mb-4 mt-6 bg-base-100 shadow-xl p-5 rounded-xl"
+  >
+    Other Stats
+    <span class="btn btn-xs btn-ghost no-animation" @click="updateData" :class="{ loading : loading.status }"
+      >{{loading.text}}</span
+    >
+  </h1>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-2">
-
     <!--INDOOR STATS-->
     <div class="stats stats-vertical md:stats-horizontal shadow-xl">
       <div class="stat">
@@ -281,11 +313,10 @@ watchEffect(async () => {
             istant_query.data.indoor.temperature.unit
           }}</span>
         </div>
-        <div class="stat-desc">Indoor humidity: {{ istant_query.data.indoor.humidity.value }}{{
-            istant_query.data.indoor.humidity.unit
-          }}</div>
-
-      
+        <div class="stat-desc">
+          Indoor humidity: {{ istant_query.data.indoor.humidity.value
+          }}{{ istant_query.data.indoor.humidity.unit }}
+        </div>
       </div>
       <div class="stat">
         <div class="stat-figure text-secondary">
@@ -298,15 +329,14 @@ watchEffect(async () => {
         </div>
         <div class="stat-title">Battery Level</div>
         <div class="stat-value">
-          
-            
-          <span v-if="istant_query.data.battery.sensor_array.value == '0'">Normal
-          </span><span v-else>Low</span>
-          
+          <span v-if="istant_query.data.battery.sensor_array.value == '0'"
+            >Normal </span
+          ><span v-else>Low</span>
         </div>
-        
       </div>
-     
     </div>
   </div>
+
+
+
 </template>
