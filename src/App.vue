@@ -92,16 +92,16 @@ onUnmounted(() => {
           ></path>
         </svg>      </label>
       <ul tabindex="0" class="menu menu-compact dropdown-content  p-2 shadow-xl bg-base-100 rounded-box w-36">
-        <li><label class="flex-1" for="my-modal-6"><img
+        <li><label class="flex-1" for="show-more-data-modal"><img
               class="h-8"
               src="https://img.icons8.com/fluency/administrative-tools.svg"
               alt="settings"
             /> Settings</label></li>
-        <li><a><img
+        <li><label class="flex-1" for="show-about-modal"><img
               class="h-8"
               src="https://img.icons8.com/fluency/about.svg"
               alt="about"
-            /> About</a></li>
+            /> About</label></li>
             
       </ul>
     </div>
@@ -356,8 +356,8 @@ onUnmounted(() => {
   </div>
 </footer>
 
-<input type="checkbox" id="my-modal-6" class="modal-toggle" />
-<label for="my-modal-6" class="modal cursor-pointer modal-bottom sm:modal-middle">
+<input type="checkbox" id="show-more-data-modal" class="modal-toggle" />
+<label for="show-more-data-modal" class="modal cursor-pointer modal-bottom sm:modal-middle">
   <label class="modal-box relative">
     <h3 class="font-bold text-lg">Sort of ettings</h3>
     
@@ -367,6 +367,15 @@ onUnmounted(() => {
     <input type="checkbox" class="toggle" v-model="showMoreData"/>
   </label>
   </div>
+  </label>
+</label>
+
+<input type="checkbox" id="show-about-modal" class="modal-toggle" />
+<label for="show-about-modal" class="modal cursor-pointer modal-bottom sm:modal-middle">
+  <label class="modal-box relative">
+    <h3 class="font-bold text-lg">About</h3>
+    <p class="font-sm">I didn't have any clue what to write here. If you are a developer check the <a class="link" href="https://github.com/jacksalici/weather_station">project repo</a>.</p>
+    
   </label>
 </label>
 
