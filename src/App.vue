@@ -338,5 +338,10 @@ onUnmounted(() => {
   </div>
 
 
+  <footer class="footer footer-center p-4 bg-base-100 text-base-content">
+  <div class="text-base-300">
+    <p>Developed and designed by <a class="link font-bold" href="https://jacksalici.com">jacksalici</a><br/>MIT Licence {{ moment().format('YYYY') }} - Icons by <a class="link" href="https://icons8.com/">Icons8</a></p>
+  </div>
+</footer>
 
 </template>
