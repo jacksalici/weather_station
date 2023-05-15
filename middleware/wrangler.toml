@@ -1,0 +1,9 @@
+name = "weather-station-api"
+main = "src/index.js"
+compatibility_date = "2023-05-15"
+usage_model = "bundled"
+env = { }
+
+[triggers]
+crons = [ ]
+
