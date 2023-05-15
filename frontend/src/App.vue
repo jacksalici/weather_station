@@ -2,8 +2,14 @@
 import { onMounted, onUnmounted, watch, ref, watchEffect } from "vue";
 import moment from "moment";
 import StatComponent from "./components/StatComponent.vue";
+import Cookies from "js-cookie"
+
 
 const api_url = `https://weather-station-api.jacksalici.workers.dev/`;
+
+
+
+
 
 var istant_query = ref({
   code: 0,
@@ -49,7 +55,13 @@ var istant_query = ref({
 
 var loading = ref({ status: true, text: "Loading..." });
 
-var showMoreData = ref(false);
+var showMoreData = ref(Cookies.get("showMoreData")!=undefined ? Cookies.get("showMoreData") : false);
+
+watch(showMoreData, ()=>{
+    Cookies.set("showMoreData", showMoreData.value, { expires: 350 })
+  }, { immediate: true })
+
+
 
 async function updateData() {
   loading.value = { status: true, text: "Loading..." };
@@ -63,6 +75,8 @@ async function updateData() {
     )}`,
   };
 }
+
+
 
 const batteryLevels = ["Normal", "Low"]
 
@@ -125,7 +139,7 @@ onUnmounted(() => {
     </div>
   </div>
 
-  <!--NAV BAR-->
+  <!-- MAIN DATA -->
   <h1 class="text-2xl font-bold m-2 mb-4 bg-base-100 shadow-xl p-5 rounded-xl">
     Istant Data
     <span
@@ -158,10 +172,10 @@ onUnmounted(() => {
         :value="istant_query.data.rainfall.event.value"
         :unit="istant_query.data.rainfall.event.unit"
         :description="
-          'Weekly:' + istant_query.data.rainfall.weekly.value +
-          istant_query.data.rainfall.weekly.unit + '<br />Monthly:' +
+          'Weekly: ' + istant_query.data.rainfall.weekly.value +
+          istant_query.data.rainfall.weekly.unit + '<br />Monthly: ' +
           istant_query.data.rainfall.monthly.value +
-          istant_query.data.rainfall.monthly.unit + '<br />Yearly:' +
+          istant_query.data.rainfall.monthly.unit + '<br />Yearly: ' +
           istant_query.data.rainfall.yearly.value +
           istant_query.data.rainfall.yearly.unit
         "
@@ -238,6 +252,7 @@ onUnmounted(() => {
     </div>
   </div>
 
+   <!-- OTHER DATA -->
   <h1
     class="text-2xl font-bold m-2 mb-4 mt-6 bg-base-100 shadow-xl p-5 rounded-xl"
     v-if="showMoreData"
@@ -273,6 +288,8 @@ onUnmounted(() => {
   </div>
   </div>
 
+  
+  <!-- FOOTER AND OTHER DATA -->
   <footer class="footer footer-center p-4 bg-base-100 text-base-content">
     <div class="text-base-300">
       <p>
