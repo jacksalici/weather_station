@@ -59,9 +59,12 @@ async function updateData(){
 }
 
 
+
+
+
 watchEffect(async () => {
   updateData()
-  
+  transformData()
 });
 
 
@@ -72,6 +75,7 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <!--NAVBAR-->
   <div class="navbar bg-base-100">
     <div class="flex-1">
       <a class="btn btn-ghost normal-case text-xl">Mirandola Weather Station</a>
@@ -107,6 +111,7 @@ onUnmounted(() => {
     </div>
   </div>
 
+  <!--NAV BAR-->
   <h1 class="text-2xl font-bold m-2 mb-4 bg-base-100 shadow-xl p-5 rounded-xl">
     Istant Data
     <span class="btn btn-xs btn-ghost no-animation" @click="updateData" :class="{ loading : loading.status }"
@@ -117,7 +122,7 @@ onUnmounted(() => {
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-2">
     <!--RAIN-->
     <div class="stats stats-vertical md:stats-horizontal shadow-xl">
-      <div class="stat">
+      <div class="stat overflow-hidden">
         <div class="stat-figure text-secondary">
           <div class="w-16">
             <img
@@ -138,6 +143,10 @@ onUnmounted(() => {
           Hourly: {{ istant_query.data.rainfall.hourly.value }}
           {{ istant_query.data.rainfall.hourly.unit }}
         </div>
+        <div class="stat-actions col-span-2 -m-10 mt-5">
+          <img src="https://images.unsplash.com/photo-1683085809775-d9ac53fcbe21?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2372&q=80"/>
+        </div>
+
       </div>
 
       <div class="stat">
@@ -345,6 +354,7 @@ onUnmounted(() => {
             >Normal </span
           ><span v-else>Low</span>
         </div>
+        
       </div>
     </div>
   </div>
