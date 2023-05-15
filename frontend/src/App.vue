@@ -282,7 +282,7 @@ onUnmounted(() => {
       
       <StatComponent
         title="Battery Level"
-        icon="battery"
+        icon="medium-battery"
         :value="batteryLevels[parseInt(istant_query.data.battery.sensor_array.value)]"
       />
   </div>
@@ -290,12 +290,12 @@ onUnmounted(() => {
 
   
   <!-- FOOTER AND OTHER DATA -->
-  <footer class="footer footer-center p-4 bg-base-100 text-base-content">
-    <div class="text-base-300">
+  <footer class="footer footer-center mt-10 bg-base-100">
+    <div class="text-base-content/40 text-xs">
       <p>
         Developed and designed by
-        <a class="link font-bold" href="https://jacksalici.com">jacksalici</a
-        ><br />MIT Licence {{ moment().format("YYYY") }} - Icons by
+        <a class="font-bold" href="https://jacksalici.com">jacksalici</a
+        >.<br />© {{ moment().format("YYYY") }} MIT Licence - Icons by
         <a class="link" href="https://icons8.com/">Icons8</a>
       </p>
     </div>
