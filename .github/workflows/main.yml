@@ -35,8 +35,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: production-files
-          path: ./dist
-          working-directory: ./frontend
+          path: ./frontend/dist
+          
 
 
   deploy:
@@ -50,7 +50,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: production-files
-          working-directory: ./frontend
+           path: ./frontend/dist
 
 
       - name: Deploy to GitHub Pages
