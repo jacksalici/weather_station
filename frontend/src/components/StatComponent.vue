@@ -1,5 +1,6 @@
 <script setup>
 import { Line } from "vue-chartjs";
+import moment from "moment";
 import {
   Chart as ChartJS,
   Title,
@@ -32,18 +33,39 @@ const props = defineProps({
   },
 });
 
-console.log(props.chart);
-let a =  Object.keys(props.chart)
-console.log(a)
+
 const chartOptions = {
   responsive: true,
+  scales: {
+      x: {
+        display: false,
+        title: {
+          display: false
+        }
+      },
+      y: {
+        display: true,
+        title: {
+          display: false,
+          
+        },
+        
+      }
+    },
+  plugins: {
+    legend:{
+    display: false
+  }}
 };
 
 const chartData = {
-  labels:a,
+  labels: Object.keys(props.chart).map(label => {return moment.unix(label).format("HH:mm")}),
   datasets: [
     {
+      lavel: props.title,
       data: Object.values(props.chart),
+      tension: 0.4,
+      pointStyle: false,
     },
   ],
 };
