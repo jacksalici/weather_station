@@ -6,3 +6,8 @@ To start developing your Worker, run `npx wrangler dev`
 To publish your Worker to the Internet, run `npx wrangler publish`
 
 Environment variables should be put for local dev in a `.dev.vars` file using _dotenv_ format, and then pushed using `npx wrangler secret`.
+
+```js
+//url 
+const api_url = `https://weather-station-api.jacksalici.workers.dev/?mode=history&start_date=${encodeURIComponent(moment().subtract(24, 'hours').format('YYYY-MM-DD HH:mm:ss'))}&end_date=${encodeURIComponent(moment().format('YYYY-MM-DD HH:mm:ss'))}` ;
+```
