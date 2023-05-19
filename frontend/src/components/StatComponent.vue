@@ -1,6 +1,8 @@
 <script setup>
 import { Line } from "vue-chartjs";
 import moment from "moment";
+
+
 import {
   Chart as ChartJS,
   Title,
@@ -10,6 +12,7 @@ import {
   LineElement,
   CategoryScale,
   LinearScale,
+Colors,
 } from "chart.js";
 ChartJS.register(
   Title,
@@ -18,8 +21,12 @@ ChartJS.register(
   PointElement,
   LineElement,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  Colors
 );
+
+
+
 
 const props = defineProps({
   icon: String,
@@ -49,6 +56,7 @@ const chartOptions = {
           display: false,
           
         },
+        
         
       }
     },
@@ -92,3 +100,5 @@ const chartData = {
     </div>
   </div>
 </template>
+
+
