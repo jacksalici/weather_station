@@ -115,7 +115,7 @@ watchEffect(()=>{
           
         </div>
         <div class="text-4xl font-bold">
-          {{ value }} {{ unit }}
+          {{ value }}{{ unit }}
         </div>
         <div class="text-xs" v-html="description"></div>
     </div>
