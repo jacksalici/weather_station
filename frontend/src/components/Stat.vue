@@ -1,7 +1,9 @@
 <script setup>
 import { Line } from "vue-chartjs";
+import zoomPlugin from 'chartjs-plugin-zoom';
 import moment from "moment";
 import {ref, watchEffect} from 'vue';
+
 
 import {
   Chart as ChartJS,
@@ -22,7 +24,8 @@ ChartJS.register(
   LineElement,
   CategoryScale,
   LinearScale,
-  Colors
+  Colors,
+  zoomPlugin
 );
 
 const props = defineProps({
@@ -74,6 +77,22 @@ const chartOptions = {
         enabled: true,
         position: 'nearest',
        
+      },
+      zoom: {
+        zoom: {
+          wheel: {
+            enabled: true,
+            modifierKey: 'ctrl',
+          },
+          pinch: {
+            enabled: true
+          },
+          mode: 'xy',
+        },
+        limits:{
+          x: {min: 0, max: 'original'},
+          y: {min: 0, max: 'original'}
+        }
       }
   },
 };
