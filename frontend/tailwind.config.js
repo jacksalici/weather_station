@@ -3,6 +3,8 @@ module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {},
+    fontFamily: {
+    }
   },
   plugins: [
     require('@tailwindcss/typography'),
@@ -10,7 +12,7 @@ module.exports = {
   ],
 
   daisyui:{
-    themes: ["garden", "dracula"],
+    themes: ["light", "dracula"],
     darkTheme:'dracula',
   }
 }

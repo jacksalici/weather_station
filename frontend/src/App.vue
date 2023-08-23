@@ -75,66 +75,66 @@ var daily_query = ref({
           "0000000000": "0.0",
         },
       },
-      rainfall: {
-        rain_rate: {
-          unit: "mm\/hr",
+    },
+    rainfall: {
+      rain_rate: {
+        unit: "mm\/hr",
+        list: {
+          "0000000000": "0.0",
+        },
+      },
+      daily: {
+        unit: "mm",
+        list: {
+          "0000000000": "0.0",
+        },
+      },
+      event: {
+        unit: "mm",
+        list: {
+          "0000000000": "0.0",
+        },
+      },
+      hourly: {
+        unit: "mm",
+        list: {
+          "0000000000": "0.0",
+        },
+      },
+      weekly: {
+        unit: "mm",
+        list: {
+          "0000000000": "0.0",
+        },
+      },
+      monthly: {
+        unit: "mm",
+        list: {
+          "0000000000": "0.0",
+        },
+      },
+      yearly: {
+        unit: "mm",
+        list: {
           list: {
             "0000000000": "0.0",
-          },
-        },
-        daily: {
-          unit: "mm",
-          list: {
-            "0000000000": "0.0",
-          },
-        },
-        event: {
-          unit: "mm",
-          list: {
-            "0000000000": "0.0",
-          },
-        },
-        hourly: {
-          unit: "mm",
-          list: {
-            "0000000000": "0.0",
-          },
-        },
-        weekly: {
-          unit: "mm",
-          list: {
-            "0000000000": "0.0",
-          },
-        },
-        monthly: {
-          unit: "mm",
-          list: {
-            "0000000000": "0.0",
-          },
-        },
-        yearly: {
-          unit: "mm",
-          list: {
-            list: {
-              "0000000000": "0.0",
-            },
           },
         },
       },
-      wind: {
-        wind_speed: {
-          unit: "km\/h",
-          list: {
-            list: {
-              "0000000000": "0.0",
-            },
-          },
-        },
-        wind_gust: {
-          unit: "km\/h",
+    },
+    wind: {
+      wind_speed: {
+        unit: "km\/h",
+        list: {
           list: {
             "0000000000": "0.0",
           },
+        },
+      },
+      wind_gust: {
+        unit: "km\/h",
+        list: {
+          "0000000000": "0.0",
         },
       },
       wind_direction: {
@@ -144,18 +144,18 @@ var daily_query = ref({
         },
       },
     },
-    pressure: {
-      relative: {
-        unit: "mmHg",
-        list: {
-          "0000000000": "0.0",
-        },
+  },
+  pressure: {
+    relative: {
+      unit: "mmHg",
+      list: {
+        "0000000000": "0.0",
       },
-      absolute: {
-        unit: "mmHg",
-        list: {
-          "0000000000": "0.0",
-        },
+    },
+    absolute: {
+      unit: "mmHg",
+      list: {
+        "0000000000": "0.0",
       },
     },
   },
@@ -209,7 +209,6 @@ var showMoreData = ref(
   Cookies.get("showMoreData") != undefined ? Cookies.get("showMoreData") : false
 );
 
-
 async function updateData() {
   loading.value = { status: true, text: "Loading..." };
   const res = await fetch(api_url);
@@ -238,131 +237,130 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <!-- MAIN DATA -->
-  <div class="flex justify-between m-2 sm:m-4 flex-col items-start gap-4 md:items-center md:flex-row">
-    <div>
-      <h1 class="text-2xl font-bold">Istant Weather Data</h1>
-      <h2 class="font-normal opacity-70">Mirandola, Modena, Italy</h2>
+  <div class="container mx-auto p-4">
+    <!-- MAIN DATA -->
+    <div
+      class="flex justify-between mb-12 flex-col items-start gap-3 md:items-center md:flex-row"
+    >
+      <div>
+        <h1 class="text-3xl font-bold">Instant Weather Data</h1>
+        <h2 class="text-lg opacity-70"><img class="inline w-6" src="https://img.icons8.com/fluency/48/place-marker.png"/>Mirandola, Modena, Italy</h2>
+      </div>
+
+      <button
+        class="btn btn-xs btn-ghost no-animation p-0"
+        :class="{ loading: loading.status }"
+      >
+        {{ loading.text }}
+      </button>
     </div>
 
-    <button
-      class="btn btn-xs btn-ghost no-animation p-0"
-      :class="{ loading: loading.status }"
-    >
-      {{ loading.text }}
-    </button>
-  </div>
+    <Stats>
+      <!--RAIN-->
+      <Stat
+        title="Current rainfall rate"
+        icon="hygrometer"
+        :value="istant_query.data.rainfall.rain_rate.value"
+        :unit="istant_query.data.rainfall.rain_rate.unit"
+        :description="
+          'in the last 5 min. <br /> Hourly: ' +
+          istant_query.data.rainfall.hourly.value +
+          istant_query.data.rainfall.hourly.unit +
+          '<br /> Daily: ' +
+          istant_query.data.rainfall.daily.value +
+          istant_query.data.rainfall.daily.unit
+        "
+        :chart="daily_query.data.rainfall.rain_rate.list"
+      />
 
-  <Stats>
-    
-    <!--RAIN-->
-    <Stat
-      title="Current rainfall rate"
-      icon="hygrometer"
-      :value="istant_query.data.rainfall.rain_rate.value"
-      :unit="istant_query.data.rainfall.rain_rate.unit"
-      :description="
-        'in the last 5 min. <br /> Hourly: ' +
-        istant_query.data.rainfall.hourly.value +
-        istant_query.data.rainfall.hourly.unit +
-        '<br /> Daily: ' +
-        istant_query.data.rainfall.daily.value +
-        istant_query.data.rainfall.daily.unit
-      "
-       :chart="daily_query.data.rainfall.rain_rate.list"
-    />
+      <Stat
+        title="Total rainfall event"
+        icon="rain"
+        :value="istant_query.data.rainfall.event.value"
+        :unit="istant_query.data.rainfall.event.unit"
+        :description="
+          'Weekly: ' +
+          istant_query.data.rainfall.weekly.value +
+          istant_query.data.rainfall.weekly.unit +
+          '<br />Monthly: ' +
+          istant_query.data.rainfall.monthly.value +
+          istant_query.data.rainfall.monthly.unit +
+          '<br />Yearly: ' +
+          istant_query.data.rainfall.yearly.value +
+          istant_query.data.rainfall.yearly.unit
+        "
+        :chart="daily_query.data.rainfall.event.list"
+      />
 
-    <Stat
-      title="Total rainfall event"
-      icon="rain"
-      :value="istant_query.data.rainfall.event.value"
-      :unit="istant_query.data.rainfall.event.unit"
-      :description="
-        'Weekly: ' +
-        istant_query.data.rainfall.weekly.value +
-        istant_query.data.rainfall.weekly.unit +
-        '<br />Monthly: ' +
-        istant_query.data.rainfall.monthly.value +
-        istant_query.data.rainfall.monthly.unit +
-        '<br />Yearly: ' +
-        istant_query.data.rainfall.yearly.value +
-        istant_query.data.rainfall.yearly.unit
-      "
-      :chart="daily_query.data.rainfall.event.list"
-    />
+      <!--OUTDOOR STATS-->
+      <Stat
+        title="Outdoor temperature"
+        icon="temperature-outside"
+        :value="istant_query.data.outdoor.temperature.value"
+        :unit="istant_query.data.outdoor.temperature.unit"
+        :description="
+          'Dew point: ' +
+          istant_query.data.outdoor.dew_point.value +
+          istant_query.data.outdoor.dew_point.unit
+        "
+        :chart="daily_query.data.outdoor.temperature.list"
+      />
 
-    <!--OUTDOOR STATS-->
-    <Stat
-      title="Outdoor temperature"
-      icon="temperature-outside"
-      :value="istant_query.data.outdoor.temperature.value"
-      :unit="istant_query.data.outdoor.temperature.unit"
-      :description="
-        'Dew point: ' +
-        istant_query.data.outdoor.dew_point.value +
-        istant_query.data.outdoor.dew_point.unit
-      "
-      :chart="daily_query.data.outdoor.temperature.list"
-    />
+      <Stat
+        title="Outdoor humidity"
+        icon="barometer-gauge"
+        :value="istant_query.data.outdoor.humidity.value"
+        :unit="istant_query.data.outdoor.humidity.unit"
+        :description="
+          'Abs. Pressure: ' +
+          istant_query.data.pressure.absolute.value +
+          istant_query.data.pressure.absolute.unit
+        "
+        :chart="daily_query.data.outdoor.humidity.list"
+      />
 
-    <Stat
-      title="Outdoor humidity"
-      icon="barometer-gauge"
-      :value="istant_query.data.outdoor.humidity.value"
-      :unit="istant_query.data.outdoor.humidity.unit"
-      :description="
-        'Abs. Pressure: ' +
-        istant_query.data.pressure.absolute.value +
-        istant_query.data.pressure.absolute.unit
-      "
-      :chart="daily_query.data.outdoor.humidity.list"
-    />
+      <!--SOLAR AND UVI-->
+      <Stat
+        title="Solar Irradiance"
+        icon="brightness-settings"
+        :value="istant_query.data.solar_and_uvi.solar.value"
+        :unit="istant_query.data.solar_and_uvi.solar.unit"
+        :chart="daily_query.data.solar_and_uvi.solar.list"
+      />
+      <Stat
+        title="UV Index"
+        icon="solar-energy"
+        :value="istant_query.data.solar_and_uvi.uvi.value"
+        :unit="istant_query.data.solar_and_uvi.uvi.unit"
+        :chart="daily_query.data.solar_and_uvi.uvi.list"
+      />
 
-    <!--SOLAR AND UVI-->
-    <Stat
-      title="Solar Irradiance"
-      icon="brightness-settings"
-      :value="istant_query.data.solar_and_uvi.solar.value"
-      :unit="istant_query.data.solar_and_uvi.solar.unit"
-      :chart="daily_query.data.solar_and_uvi.solar.list"
+      <!--WIND-->
+      <Stat
+        title="Wind speed"
+        icon="windsock"
+        :value="istant_query.data.wind.wind_speed.value"
+        :unit="istant_query.data.wind.wind_speed.unit"
+        :description="
+          'Wind Gust: ' +
+          istant_query.data.wind.wind_gust.value +
+          istant_query.data.wind.wind_gust.unit
+        "
+        :chart="daily_query.data.wind.wind_speed.list"
+      />
 
-    />
-    <Stat
-      title="UV Index"
-      icon="solar-energy"
-      :value="istant_query.data.solar_and_uvi.uvi.value"
-      :unit="istant_query.data.solar_and_uvi.uvi.unit"
-      :chart="daily_query.data.solar_and_uvi.uvi.list"
+      <Stat
+        title="Wind direction"
+        icon="wind-rose"
+        :value="istant_query.data.wind.wind_direction.value"
+        :unit="istant_query.data.wind.wind_direction.unit"
+        :chart="daily_query.data.wind.wind_direction.list"
+      />
+    </Stats>
 
-    />
+    <!-- OTHER DATA -->
 
-    <!--WIND-->
-    <Stat
-      title="Wind speed"
-      icon="windsock"
-      :value="istant_query.data.wind.wind_speed.value"
-      :unit="istant_query.data.wind.wind_speed.unit"
-      :description="
-        'Wind Gust: ' +
-        istant_query.data.wind.wind_gust.value +
-        istant_query.data.wind.wind_gust.unit
-      "
-      :chart="daily_query.data.wind.wind_speed.list"
-
-    />
-
-    <Stat
-      title="Wind direction"
-      icon="wind-rose"
-      :value="istant_query.data.wind.wind_direction.value"
-      :unit="istant_query.data.wind.wind_direction.unit"
-      :chart="daily_query.data.wind.wind_direction.list"
-    />
-  </Stats>
-
-  <!-- OTHER DATA -->
-
-  <!--
+    <!--
     <h1
     class="text-2xl font-bold m-2 mb-4 mt-6 bg-base-100 shadow-xl p-5 rounded-xl"
     v-if="showMoreData"
@@ -403,19 +401,20 @@ watchEffect(async () => {
   </div>
 
   -->
-  <!-- FOOTER AND OTHER DATA -->
-  <footer class="footer footer-center mt-10">
-    <div class="text-base-content opacity-40 text-xs">
-      <p>
-        Developed and designed by
-        <a class="font-bold" href="https://jacksalici.com">jacksalici</a
-        >.<br />© {{ moment().format("YYYY") }} MIT Licence - Icons by
-        <a class="link" href="https://icons8.com/">Icons8</a><br />
-        Check the project on
-        <a class="link" href="https://github.com/jacksalici/weather_station"
-          >GitHub</a
-        >.
-      </p>
-    </div>
-  </footer>
+    <!-- FOOTER AND OTHER DATA -->
+    <footer class="footer footer-center mt-10">
+      <div class="text-base-content opacity-40 text-xs">
+        <p>
+          Developed and designed by
+          <a class="font-bold" href="https://jacksalici.com">jacksalici</a
+          >.<br />© {{ moment().format("YYYY") }} MIT Licence - Icons by
+          <a class="link" href="https://icons8.com/">Icons8</a><br />
+          Check the project on
+          <a class="link" href="https://github.com/jacksalici/weather_station"
+            >GitHub</a
+          >.
+        </p>
+      </div>
+    </footer>
+  </div>
 </template>

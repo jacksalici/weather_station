@@ -35,16 +35,25 @@ const props = defineProps({
     type: Object,
     default: {},
   },
+  chartDot: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const chartOptions = {
   responsive: true,
+  mantainAspectRatio: false,
   scales: {
     x: {
-      display: false,
+      display: true,
       title: {
         display: false,
+       
       },
+      ticks: {
+            mirror: false
+         }
     },
     y: {
       display: true,
@@ -52,7 +61,8 @@ const chartOptions = {
         display: false,
       },
       ticks: {
-            mirror: true
+        display: true,
+            mirror: false
          }
     },
   },
@@ -77,10 +87,10 @@ watchEffect(()=>{
   }),
   datasets: [
     {
-      lavel: props.title,
+      label: props.title,
       data: Object.values(props.chart),
-      tension:0.2,
-      pointStyle: false,
+      tension:0.4,
+      pointStyle: props.chartDot ? true: false,
       cubicInterpolationMode: 'monotone',
     },
   ],
@@ -90,26 +100,31 @@ watchEffect(()=>{
 </script>
 
 <template>
-  <div class="card w-full shadow-lg rounded-lg border-2 border-opacity-10 border-base-content">
-    <div class="card-body p-0">
-      <div class="p-4 sm:p-8 pb-2">
-        <div class="card-title">
-          {{ title }}
-          <img
+  <div class="card xl:card-side shadow-none rounded-lg border-2 border-opacity-20 border-base-content">
+    
+    <div class="card-body w-full p-2 m-4 sm:p-4 pb-2">
+      
+      <div class="card-title flex-col items-start mb-4">
+        <img
             :src="'https://img.icons8.com/fluency/' + icon + '.png'"
             :alt="icon"
-            class="inline pr-1 h-10"
+            class="block pr-1 h-12"
           />
+          {{ title }}
+          
+          
         </div>
         <div class="text-4xl font-bold">
-          {{ value }}
-          <span class="text-sm">{{ unit }}</span>
+          {{ value }} {{ unit }}
         </div>
-        <div class="stat-desc" v-html="description"></div>
-      </div>
-      <div class="" v-if="Object.keys(chart).length">
-        <Line :data="chartData" :options="chartOptions" id="Line" />
-      </div>
+        <div class="text-xs" v-html="description"></div>
     </div>
+      
+      <figure class="w-full p-2 h-full" v-if="Object.keys(chart).length">
+      <Line :data="chartData" :options="chartOptions" id="Line" />
+
+    </figure>
+      
+    
   </div>
 </template>
