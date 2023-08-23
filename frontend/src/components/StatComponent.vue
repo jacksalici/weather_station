@@ -25,9 +25,6 @@ ChartJS.register(
   Colors
 );
 
-
-
-
 const props = defineProps({
   icon: String,
   title: String,
@@ -82,9 +79,9 @@ const chartData = {
 <template>
   <div class="stat overflow-hidden">
     <div class="stat-figure text-secondary">
-      <div class="w-16">
+      <div class="w-8">
         <img
-          :src="'https://img.icons8.com/fluency/' + icon + '.svg'"
+          :src="'https://img.icons8.com/fluency/' + icon + '.png'"
           alt="{{icon}}"
         />
       </div>
