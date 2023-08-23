@@ -1,7 +1,9 @@
 <script setup>
 import { onMounted, onUnmounted, watch, ref, watchEffect } from "vue";
 import moment from "moment";
-import StatComponent from "./components/StatComponent.vue";
+import Stat from "./components/Stat.vue";
+import Stats from "./components/Stats.vue";
+
 import Cookies from "js-cookie";
 
 const api_url = `https://weather-station-api.jacksalici.workers.dev/`;
@@ -9,7 +11,7 @@ const daily_api_url = `https://weather-station-api.jacksalici.workers.dev/?mode=
   moment().subtract(24, "hours").format("YYYY-MM-DD HH:mm:ss")
 )}&end_date=${encodeURIComponent(moment().format("YYYY-MM-DD HH:mm:ss"))}`;
 
-var daily_query = {
+var daily_query = ref({
   code: 0,
   msg: "success",
   time: "1684187731",
@@ -157,7 +159,7 @@ var daily_query = {
       },
     },
   },
-};
+});
 
 var istant_query = ref({
   code: 0,
@@ -207,19 +209,15 @@ var showMoreData = ref(
   Cookies.get("showMoreData") != undefined ? Cookies.get("showMoreData") : false
 );
 
-watch(
-  showMoreData,
-  () => {
-    Cookies.set("showMoreData", showMoreData.value, { expires: 350 });
-  },
-  { immediate: false }
-);
 
 async function updateData() {
   loading.value = { status: true, text: "Loading..." };
   const res = await fetch(api_url);
   istant_query.value = await res.json();
-  console.log(istant_query);
+  const res_d = await fetch(daily_api_url);
+  daily_query.value = await res_d.json();
+  console.log(istant_query.value);
+  console.log(daily_query.value);
   loading.value = {
     status: false,
     text: `Updated at ${moment(istant_query.value.time * 1000).format(
@@ -240,131 +238,122 @@ watchEffect(async () => {
 </script>
 
 <template>
-  
   <!-- MAIN DATA -->
-  <div class="flex justify-between items-center m-4">
+  <div class="flex justify-between m-2 sm:m-4 flex-col items-start gap-4 md:items-center md:flex-row">
     <div>
-      <h1 class="text-2xl font-bold">
-    Istant Weather Data
-  </h1>
-   <h2 class="font-normal opacity-70">Mirandola, Modena, Italy</h2>
+      <h1 class="text-2xl font-bold">Istant Weather Data</h1>
+      <h2 class="font-normal opacity-70">Mirandola, Modena, Italy</h2>
     </div>
-  
-    
- 
-  <button
-      class="btn btn-xs btn-ghost no-animation"
+
+    <button
+      class="btn btn-xs btn-ghost no-animation p-0"
       :class="{ loading: loading.status }"
-      >{{ loading.text }}</button
     >
+      {{ loading.text }}
+    </button>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-2">
+  <Stats>
+    
     <!--RAIN-->
-    <div class="stats stats-vertical md:stats-horizontal shadow-xl">
-      <StatComponent
-        title="Current rainfall rate"
-        icon="hygrometer"
-        :value="istant_query.data.rainfall.rain_rate.value"
-        :unit="istant_query.data.rainfall.rain_rate.unit"
-        :description="
-          'in the last 5 min. <br /> Hourly: ' +
-          istant_query.data.rainfall.hourly.value +
-          istant_query.data.rainfall.hourly.unit +
-          '<br /> Daily: ' +
-          istant_query.data.rainfall.daily.value +
-          istant_query.data.rainfall.daily.unit
-        "
-      />
+    <Stat
+      title="Current rainfall rate"
+      icon="hygrometer"
+      :value="istant_query.data.rainfall.rain_rate.value"
+      :unit="istant_query.data.rainfall.rain_rate.unit"
+      :description="
+        'in the last 5 min. <br /> Hourly: ' +
+        istant_query.data.rainfall.hourly.value +
+        istant_query.data.rainfall.hourly.unit +
+        '<br /> Daily: ' +
+        istant_query.data.rainfall.daily.value +
+        istant_query.data.rainfall.daily.unit
+      "
+    />
 
-      <StatComponent
-        title="Total rainfall event"
-        icon="rain"
-        :value="istant_query.data.rainfall.event.value"
-        :unit="istant_query.data.rainfall.event.unit"
-        :description="
-          'Weekly: ' +
-          istant_query.data.rainfall.weekly.value +
-          istant_query.data.rainfall.weekly.unit +
-          '<br />Monthly: ' +
-          istant_query.data.rainfall.monthly.value +
-          istant_query.data.rainfall.monthly.unit +
-          '<br />Yearly: ' +
-          istant_query.data.rainfall.yearly.value +
-          istant_query.data.rainfall.yearly.unit
-        "
-      />
-    </div>
+    <Stat
+      title="Total rainfall event"
+      icon="rain"
+      :value="istant_query.data.rainfall.event.value"
+      :unit="istant_query.data.rainfall.event.unit"
+      :description="
+        'Weekly: ' +
+        istant_query.data.rainfall.weekly.value +
+        istant_query.data.rainfall.weekly.unit +
+        '<br />Monthly: ' +
+        istant_query.data.rainfall.monthly.value +
+        istant_query.data.rainfall.monthly.unit +
+        '<br />Yearly: ' +
+        istant_query.data.rainfall.yearly.value +
+        istant_query.data.rainfall.yearly.unit
+      "
+    />
 
     <!--OUTDOOR STATS-->
-    <div class="stats stats-vertical md:stats-horizontal shadow-xl">
-      <StatComponent
-        title="Outdoor temperature"
-        icon="temperature-outside"
-        :value="istant_query.data.outdoor.temperature.value"
-        :unit="istant_query.data.outdoor.temperature.unit"
-        :description="
-          'Dew point: ' +
-          istant_query.data.outdoor.dew_point.value +
-          istant_query.data.outdoor.dew_point.unit
-        "
-        :chart="daily_query.data.outdoor.temperature.list"
-      />
+    <Stat
+      title="Outdoor temperature"
+      icon="temperature-outside"
+      :value="istant_query.data.outdoor.temperature.value"
+      :unit="istant_query.data.outdoor.temperature.unit"
+      :description="
+        'Dew point: ' +
+        istant_query.data.outdoor.dew_point.value +
+        istant_query.data.outdoor.dew_point.unit
+      "
+      :chart="daily_query.data.outdoor.temperature.list"
+    />
 
-      <StatComponent
-        title="Outdoor humidity"
-        icon="barometer-gauge"
-        :value="istant_query.data.outdoor.humidity.value"
-        :unit="istant_query.data.outdoor.humidity.unit"
-        :description="
-          'Abs. Pressure: ' +
-          istant_query.data.pressure.absolute.value +
-          istant_query.data.pressure.absolute.unit
-        "
-      />
-    </div>
+    <Stat
+      title="Outdoor humidity"
+      icon="barometer-gauge"
+      :value="istant_query.data.outdoor.humidity.value"
+      :unit="istant_query.data.outdoor.humidity.unit"
+      :description="
+        'Abs. Pressure: ' +
+        istant_query.data.pressure.absolute.value +
+        istant_query.data.pressure.absolute.unit
+      "
+    />
 
     <!--SOLAR AND UVI-->
-    <div class="stats stats-vertical md:stats-horizontal shadow-xl">
-      <StatComponent
-        title="Solar Irradiance"
-        icon="brightness-settings"
-        :value="istant_query.data.solar_and_uvi.solar.value"
-        :unit="istant_query.data.solar_and_uvi.solar.unit"
-      />
-      <StatComponent
-        title="UV Index"
-        icon="solar-energy"
-        :value="istant_query.data.solar_and_uvi.uvi.value"
-        :unit="istant_query.data.solar_and_uvi.uvi.unit"
-      />
-    </div>
+    <Stat
+      title="Solar Irradiance"
+      icon="brightness-settings"
+      :value="istant_query.data.solar_and_uvi.solar.value"
+      :unit="istant_query.data.solar_and_uvi.solar.unit"
+    />
+    <Stat
+      title="UV Index"
+      icon="solar-energy"
+      :value="istant_query.data.solar_and_uvi.uvi.value"
+      :unit="istant_query.data.solar_and_uvi.uvi.unit"
+    />
 
     <!--WIND-->
-    <div class="stats stats-vertical md:stats-horizontal shadow-xl">
-      <StatComponent
-        title="Wind speed"
-        icon="windsock"
-        :value="istant_query.data.wind.wind_speed.value"
-        :unit="istant_query.data.wind.wind_speed.unit"
-        :description="
-          'Wind Gust: ' +
-          istant_query.data.wind.wind_gust.value +
-          istant_query.data.wind.wind_gust.unit
-        "
-      />
+    <Stat
+      title="Wind speed"
+      icon="windsock"
+      :value="istant_query.data.wind.wind_speed.value"
+      :unit="istant_query.data.wind.wind_speed.unit"
+      :description="
+        'Wind Gust: ' +
+        istant_query.data.wind.wind_gust.value +
+        istant_query.data.wind.wind_gust.unit
+      "
+    />
 
-      <StatComponent
-        title="Wind speed"
-        icon="wind-rose"
-        :value="istant_query.data.wind.wind_direction.value"
-        :unit="istant_query.data.wind.wind_direction.unit"
-      />
-    </div>
-  </div>
+    <Stat
+      title="Wind speed"
+      icon="wind-rose"
+      :value="istant_query.data.wind.wind_direction.value"
+      :unit="istant_query.data.wind.wind_direction.unit"
+    />
+  </Stats>
 
   <!-- OTHER DATA -->
-  <h1
+
+  <!--
+    <h1
     class="text-2xl font-bold m-2 mb-4 mt-6 bg-base-100 shadow-xl p-5 rounded-xl"
     v-if="showMoreData"
   >
@@ -375,8 +364,6 @@ watchEffect(async () => {
       >{{ loading.text }}</span
     >
   </h1>
-
-  <!--
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-2" v-if="showMoreData">
     INDOOR STATS
     <div
@@ -407,19 +394,18 @@ watchEffect(async () => {
 
   -->
   <!-- FOOTER AND OTHER DATA -->
-  <footer class="footer footer-center mt-10 bg-base-100">
-    <div class="text-base-content/40 text-xs">
+  <footer class="footer footer-center mt-10">
+    <div class="text-base-content opacity-40 text-xs">
       <p>
         Developed and designed by
         <a class="font-bold" href="https://jacksalici.com">jacksalici</a
         >.<br />© {{ moment().format("YYYY") }} MIT Licence - Icons by
-        <a class="link" href="https://icons8.com/">Icons8</a><br>
-        Check the project on <a class="link" href="https://github.com/jacksalici/weather_station"
+        <a class="link" href="https://icons8.com/">Icons8</a><br />
+        Check the project on
+        <a class="link" href="https://github.com/jacksalici/weather_station"
           >GitHub</a
         >.
       </p>
     </div>
   </footer>
-
-  
 </template>
