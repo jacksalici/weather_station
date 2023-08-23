@@ -269,6 +269,7 @@ watchEffect(async () => {
         istant_query.data.rainfall.daily.value +
         istant_query.data.rainfall.daily.unit
       "
+       :chart="daily_query.data.rainfall.rain_rate.list"
     />
 
     <Stat
@@ -287,6 +288,7 @@ watchEffect(async () => {
         istant_query.data.rainfall.yearly.value +
         istant_query.data.rainfall.yearly.unit
       "
+      :chart="daily_query.data.rainfall.event.list"
     />
 
     <!--OUTDOOR STATS-->
@@ -313,6 +315,7 @@ watchEffect(async () => {
         istant_query.data.pressure.absolute.value +
         istant_query.data.pressure.absolute.unit
       "
+      :chart="daily_query.data.outdoor.humidity.list"
     />
 
     <!--SOLAR AND UVI-->
@@ -321,12 +324,16 @@ watchEffect(async () => {
       icon="brightness-settings"
       :value="istant_query.data.solar_and_uvi.solar.value"
       :unit="istant_query.data.solar_and_uvi.solar.unit"
+      :chart="daily_query.data.solar_and_uvi.solar.list"
+
     />
     <Stat
       title="UV Index"
       icon="solar-energy"
       :value="istant_query.data.solar_and_uvi.uvi.value"
       :unit="istant_query.data.solar_and_uvi.uvi.unit"
+      :chart="daily_query.data.solar_and_uvi.uvi.list"
+
     />
 
     <!--WIND-->
@@ -340,13 +347,16 @@ watchEffect(async () => {
         istant_query.data.wind.wind_gust.value +
         istant_query.data.wind.wind_gust.unit
       "
+      :chart="daily_query.data.wind.wind_speed.list"
+
     />
 
     <Stat
-      title="Wind speed"
+      title="Wind direction"
       icon="wind-rose"
       :value="istant_query.data.wind.wind_direction.value"
       :unit="istant_query.data.wind.wind_direction.unit"
+      :chart="daily_query.data.wind.wind_direction.list"
     />
   </Stats>
 

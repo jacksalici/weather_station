@@ -81,6 +81,7 @@ watchEffect(()=>{
       data: Object.values(props.chart),
       tension:0.2,
       pointStyle: false,
+      cubicInterpolationMode: 'monotone',
     },
   ],
 }
