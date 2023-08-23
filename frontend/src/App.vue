@@ -261,7 +261,7 @@ watchEffect(async () => {
         title="Current rainfall rate"
         icon="hygrometer"
         :value="istant_query.data.rainfall.rain_rate.value"
-        :unit="istant_query.data.rainfall.rain_rate.unit"
+        unit="mm/h"
         :description="
           'in the last 5 min. <br /> Hourly: ' +
           istant_query.data.rainfall.hourly.value +
@@ -297,11 +297,11 @@ watchEffect(async () => {
         title="Outdoor temperature"
         icon="temperature-outside"
         :value="istant_query.data.outdoor.temperature.value"
-        :unit="istant_query.data.outdoor.temperature.unit"
+        unit="°C"
         :description="
           'Dew point: ' +
           istant_query.data.outdoor.dew_point.value +
-          istant_query.data.outdoor.dew_point.unit
+          '°C'
         "
         :chart="daily_query.data.outdoor.temperature.list"
       />
