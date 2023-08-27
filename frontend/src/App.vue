@@ -116,9 +116,7 @@ var daily_query = ref({
       yearly: {
         unit: "mm",
         list: {
-          list: {
-            "0000000000": "0.0",
-          },
+          "0000000000": "0.0",
         },
       },
     },
@@ -126,9 +124,7 @@ var daily_query = ref({
       wind_speed: {
         unit: "km\/h",
         list: {
-          list: {
-            "0000000000": "0.0",
-          },
+          "0000000000": "0.0",
         },
       },
       wind_gust: {
@@ -253,7 +249,13 @@ watchEffect(async () => {
             />Mirandola, Modena, Italy
           </h2>
 
-          <span class="badge badge-md" :class="{'badge-primary': loading.status, 'badge-ghost': !loading.status}">
+          <span
+            class="badge badge-md"
+            :class="{
+              'badge-primary': loading.status,
+              'badge-ghost': !loading.status,
+            }"
+          >
             {{ loading.text }}
           </span>
         </div>
@@ -369,14 +371,13 @@ watchEffect(async () => {
           "
           :chart="daily_query.data.wind.wind_speed.list"
         />
-
-        
       </Stats>
     </div>
 
     <!-- HISTORIC DATA -->
     <div v-else class="opacity-50">
-      You know that curiosity killed the cat, don't you? Just kidding, but this section is still under development, please check it out later. TYSM.
+      You know that curiosity killed the cat, don't you? Just kidding, but this
+      section is still under development, please check it out later. TYSM.
     </div>
 
     <!-- FOOTER AND OTHER DATA -->
