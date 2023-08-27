@@ -209,6 +209,8 @@ var showMoreData = ref(
   Cookies.get("showMoreData") != undefined ? Cookies.get("showMoreData") : false
 );
 
+const tab_daily_active = ref(true); //1 is daily, 0 is historic
+
 async function updateData() {
   loading.value = { status: true, text: "Loading..." };
   const res = await fetch(api_url);
@@ -237,177 +239,149 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <div class="container mx-auto p-4">
-    <!-- MAIN DATA -->
+  <div class="container mx-auto p-4 min-h-screen flex flex-col">
     <div
       class="flex justify-between mb-12 flex-col items-start gap-3 md:items-center md:flex-row"
     >
-      
-      <div class="flex space-x-3">
-        <img src="/wslogo.svg" class="h-12 my-auto"/>
-        <div>
-          <h1 class="text-3xl font-bold">Instant Weather Data</h1>
-        <h2 class="text-lg opacity-70"><img class="inline w-6" src="https://img.icons8.com/fluency/48/place-marker.png"/>Mirandola, Modena, Italy</h2>
+      <div class="flex space-x-3 flex-row-reverse md:flex-row">
+        <div class="w-full">
+          <h1 class="text-3xl font-bold">Weather Data</h1>
+          <h2 class="text-lg opacity-70">
+            <img
+              class="inline w-6"
+              src="https://img.icons8.com/fluency/48/place-marker.png"
+            />Mirandola, Modena, Italy
+          </h2>
+
+          <span class="badge badge-md" :class="{'badge-primary': loading.status, 'badge-ghost': !loading.status}">
+            {{ loading.text }}
+          </span>
         </div>
       </div>
 
-      <button
-        class="btn btn-xs btn-ghost no-animation p-0"
-        :class="{ loading: loading.status }"
-      >
-        {{ loading.text }}
-      </button>
+      <div class="tabs tabs-boxed mx-auto mt-4 md:ml-auto md:mr-0">
+        <button
+          class="tab"
+          :class="{ 'tab-active': tab_daily_active }"
+          @click="tab_daily_active = true"
+        >
+          Current Weather
+        </button>
+        <button
+          class="tab"
+          :class="{ 'tab-active': !tab_daily_active }"
+          @click="tab_daily_active = false"
+        >
+          Historical Weather
+        </button>
+      </div>
     </div>
 
-    <Stats>
-      <!--RAIN-->
-      <Stat
-        title="Current rainfall rate"
-        icon="hygrometer"
-        :value="istant_query.data.rainfall.rain_rate.value"
-        unit="mm/h"
-        :description="
-          'in the last 5 min. <br /> Hourly: ' +
-          istant_query.data.rainfall.hourly.value +
-          istant_query.data.rainfall.hourly.unit +
-          '<br /> Daily: ' +
-          istant_query.data.rainfall.daily.value +
-          istant_query.data.rainfall.daily.unit
-        "
-        :chart="daily_query.data.rainfall.rain_rate.list"
-      />
+    <!-- CURRENT DATA -->
+    <div v-if="tab_daily_active">
+      <Stats>
+        <!--RAIN-->
+        <Stat
+          title="Current rainfall rate"
+          icon="hygrometer"
+          :value="istant_query.data.rainfall.rain_rate.value"
+          unit="mm/h"
+          :description="
+            'in the last 5 min. <br /> Hourly: ' +
+            istant_query.data.rainfall.hourly.value +
+            istant_query.data.rainfall.hourly.unit +
+            '<br /> Daily: ' +
+            istant_query.data.rainfall.daily.value +
+            istant_query.data.rainfall.daily.unit
+          "
+          :chart="daily_query.data.rainfall.rain_rate.list"
+        />
 
-      <Stat
-        title="Total rainfall event"
-        icon="rain"
-        :value="istant_query.data.rainfall.event.value"
-        :unit="istant_query.data.rainfall.event.unit"
-        :description="
-          'Weekly: ' +
-          istant_query.data.rainfall.weekly.value +
-          istant_query.data.rainfall.weekly.unit +
-          '<br />Monthly: ' +
-          istant_query.data.rainfall.monthly.value +
-          istant_query.data.rainfall.monthly.unit +
-          '<br />Yearly: ' +
-          istant_query.data.rainfall.yearly.value +
-          istant_query.data.rainfall.yearly.unit
-        "
-        :chart="daily_query.data.rainfall.event.list"
-      />
+        <Stat
+          title="Total rainfall event"
+          icon="rain"
+          :value="istant_query.data.rainfall.event.value"
+          :unit="istant_query.data.rainfall.event.unit"
+          :description="
+            'Weekly: ' +
+            istant_query.data.rainfall.weekly.value +
+            istant_query.data.rainfall.weekly.unit +
+            '<br />Monthly: ' +
+            istant_query.data.rainfall.monthly.value +
+            istant_query.data.rainfall.monthly.unit +
+            '<br />Yearly: ' +
+            istant_query.data.rainfall.yearly.value +
+            istant_query.data.rainfall.yearly.unit
+          "
+          :chart="daily_query.data.rainfall.event.list"
+        />
 
-      <!--OUTDOOR STATS-->
-      <Stat
-        title="Outdoor temperature"
-        icon="temperature-outside"
-        :value="istant_query.data.outdoor.temperature.value"
-        unit="°C"
-        :description="
-          'Dew point: ' +
-          istant_query.data.outdoor.dew_point.value +
-          '°C'
-        "
-        :chart="daily_query.data.outdoor.temperature.list"
-      />
+        <!--OUTDOOR STATS-->
+        <Stat
+          title="Outdoor temperature"
+          icon="temperature-outside"
+          :value="istant_query.data.outdoor.temperature.value"
+          unit="°C"
+          :description="
+            'Dew point: ' + istant_query.data.outdoor.dew_point.value + '°C'
+          "
+          :chart="daily_query.data.outdoor.temperature.list"
+        />
 
-      <Stat
-        title="Outdoor humidity"
-        icon="barometer-gauge"
-        :value="istant_query.data.outdoor.humidity.value"
-        :unit="istant_query.data.outdoor.humidity.unit"
-        :description="
-          'Abs. Pressure: ' +
-          istant_query.data.pressure.absolute.value +
-          istant_query.data.pressure.absolute.unit
-        "
-        :chart="daily_query.data.outdoor.humidity.list"
-      />
+        <Stat
+          title="Outdoor humidity"
+          icon="barometer-gauge"
+          :value="istant_query.data.outdoor.humidity.value"
+          :unit="istant_query.data.outdoor.humidity.unit"
+          :description="
+            'Abs. Pressure: ' +
+            istant_query.data.pressure.absolute.value +
+            istant_query.data.pressure.absolute.unit
+          "
+          :chart="daily_query.data.outdoor.humidity.list"
+        />
 
-      <!--SOLAR AND UVI-->
-      <Stat
-        title="Solar Irradiance"
-        icon="brightness-settings"
-        :value="istant_query.data.solar_and_uvi.solar.value"
-        :unit="istant_query.data.solar_and_uvi.solar.unit"
-        :chart="daily_query.data.solar_and_uvi.solar.list"
-      />
-      <Stat
-        title="UV Index"
-        icon="solar-energy"
-        :value="istant_query.data.solar_and_uvi.uvi.value"
-        :unit="istant_query.data.solar_and_uvi.uvi.unit"
-        :chart="daily_query.data.solar_and_uvi.uvi.list"
-      />
+        <!--SOLAR AND UVI-->
+        <Stat
+          title="Solar Irradiance"
+          icon="solar-energy"
+          :value="istant_query.data.solar_and_uvi.solar.value"
+          :unit="istant_query.data.solar_and_uvi.solar.unit"
+          :chart="daily_query.data.solar_and_uvi.solar.list"
+          :description="
+            'UV Index: ' + istant_query.data.solar_and_uvi.uvi.value + '<br/>'
+          "
+        />
 
-      <!--WIND-->
-      <Stat
-        title="Wind speed"
-        icon="windsock"
-        :value="istant_query.data.wind.wind_speed.value"
-        :unit="istant_query.data.wind.wind_speed.unit"
-        :description="
-          'Wind Gust: ' +
-          istant_query.data.wind.wind_gust.value +
-          istant_query.data.wind.wind_gust.unit
-        "
-        :chart="daily_query.data.wind.wind_speed.list"
-      />
+        <!--WIND-->
+        <Stat
+          title="Wind speed and direction"
+          icon="windsock"
+          :value="istant_query.data.wind.wind_speed.value"
+          :unit="istant_query.data.wind.wind_speed.unit"
+          :description="
+            'Wind Gust: ' +
+            istant_query.data.wind.wind_gust.value +
+            istant_query.data.wind.wind_gust.unit +
+            '<br/> Wind Direction: ' +
+            istant_query.data.wind.wind_direction.value +
+            istant_query.data.wind.wind_direction.unit
+          "
+          :chart="daily_query.data.wind.wind_speed.list"
+        />
 
-      <Stat
-        title="Wind direction"
-        icon="wind-rose"
-        :value="istant_query.data.wind.wind_direction.value"
-        :unit="istant_query.data.wind.wind_direction.unit"
-        :chart="daily_query.data.wind.wind_direction.list"
-      />
-    </Stats>
-
-    <!-- OTHER DATA -->
-
-    <!--
-    <h1
-    class="text-2xl font-bold m-2 mb-4 mt-6 bg-base-100 shadow-xl p-5 rounded-xl"
-    v-if="showMoreData"
-  >
-    Other Stats
-    <span
-      class="btn btn-xs btn-ghost no-animation"
-      :class="{ loading: loading.status }"
-      >{{ loading.text }}</span
-    >
-  </h1>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 m-2" v-if="showMoreData">
-    INDOOR STATS
-    <div
-      class="stats stats-vertical md:stats-horizontal shadow-xl"
-      v-if="showMoreData"
-    >
-      <StatComponent
-        title="Inside temperature"
-        icon="temperature-inside"
-        :value="istant_query.data.indoor.temperature.value"
-        :unit="istant_query.data.indoor.temperature.unit"
-        :description="
-          'Indoor humidity: ' +
-          istant_query.data.indoor.humidity.value +
-          istant_query.data.indoor.humidity.unit
-        "
-      />
-
-      <StatComponent
-        title="Battery Level"
-        icon="medium-battery"
-        :value="
-          batteryLevels[parseInt(istant_query.data.battery.sensor_array.value)]
-        "
-      />
+        
+      </Stats>
     </div>
-  </div>
 
-  -->
+    <!-- HISTORIC DATA -->
+    <div v-else class="opacity-50">
+      You know that curiosity killed the cat, don't you? Just kidding, but this section is still under development, please check it out later. TYSM.
+    </div>
+
     <!-- FOOTER AND OTHER DATA -->
-    <footer class="footer footer-center mt-10">
-      <div class="text-base-content opacity-40 text-xs">
+    <footer class="footer footer-center mt-auto">
+      <div class="text-base-content opacity-40 text-xs mt-10">
         <p>
           Developed and designed by
           <a class="font-bold" href="https://jacksalici.com">jacksalici</a

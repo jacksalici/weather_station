@@ -4,7 +4,6 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 import moment from "moment";
 import {ref, watchEffect} from 'vue';
 
-
 import {
   Chart as ChartJS,
   Title,
@@ -119,11 +118,11 @@ watchEffect(()=>{
 </script>
 
 <template>
-  <div class="card xl:card-side shadow-none rounded-lg border-2 border-opacity-20 border-base-content">
+  <div class="card xl:card-side shadow-none rounded-lg border-2 border-primary">
     
     <div class="card-body w-full p-2 m-4 sm:p-4 pb-2">
       
-      <div class="card-title flex-col items-start mb-4">
+      <div class="card-title items-center mb-2">
         <img
             :src="'https://img.icons8.com/fluency/' + icon + '.png'"
             :alt="icon"
