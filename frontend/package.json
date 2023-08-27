@@ -8,6 +8,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@vuepic/vue-datepicker": "^6.0.2",
     "chart.js": "^4.3.0",
     "chartjs-plugin-zoom": "^2.0.1",
     "js-cookie": "^3.0.3",

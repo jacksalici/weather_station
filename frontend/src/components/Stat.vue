@@ -41,6 +41,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hideMinMax: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const chartOptions = {
@@ -167,9 +171,16 @@ watchEffect(() => {
         />
         {{ title }}
       </div>
+
+     
       <div class="text-4xl font-bold">{{ value }}{{ unit }}</div>
-      <div class="text-xs" v-html="description"></div>
+    
+      <div class="text-sm"  v-html="description"></div>
+
+      <div class="text-sm" v-if="!hideMinMax"> 24h min max: <span class="text-info">{{Math.min(...Object.values(props.chart))}}{{ unit }}</span>&nbsp;<span class="text-error">{{Math.max(...Object.values(props.chart))}}{{ unit }}</span></div>
+
     </div>
+    
 
     <figure class="w-full p-2 h-full" v-if="Object.keys(chart).length">
       <Line :data="chartData" :options="chartOptions" id="Line" />

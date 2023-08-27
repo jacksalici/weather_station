@@ -3,8 +3,11 @@ import { onMounted, onUnmounted, watch, ref, watchEffect } from "vue";
 import moment from "moment";
 import Stat from "./components/Stat.vue";
 import Stats from "./components/Stats.vue";
-
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 import Cookies from "js-cookie";
+
+const date = ref();
 
 const api_url = `https://weather-station-api.jacksalici.workers.dev/`;
 const daily_api_url = `https://weather-station-api.jacksalici.workers.dev/?mode=history&start_date=${encodeURIComponent(
@@ -232,6 +235,10 @@ const batteryLevels = ["Normal", "Low"];
 watchEffect(async () => {
   updateData();
 });
+
+watchEffect(async () => {
+  console.log(date.value)
+});
 </script>
 
 <template>
@@ -284,7 +291,7 @@ watchEffect(async () => {
       <Stats>
         <!--RAIN-->
         <Stat
-          title="Current rainfall rate"
+          title="Instant rainfall rate"
           icon="hygrometer"
           :value="istant_query.data.rainfall.rain_rate.value"
           unit="mm/h"
@@ -316,6 +323,7 @@ watchEffect(async () => {
             istant_query.data.rainfall.yearly.unit
           "
           :chart="daily_query.data.rainfall.event.list"
+          hide-min-max
         />
 
         <!--OUTDOOR STATS-->
@@ -375,9 +383,12 @@ watchEffect(async () => {
     </div>
 
     <!-- HISTORIC DATA -->
-    <div v-else class="opacity-50">
+    <div v-else>
+      <p>
       You know that curiosity killed the cat, don't you? Just kidding, but this
       section is still under development, please check it out later. TYSM.
+      </p>
+
     </div>
 
     <!-- FOOTER AND OTHER DATA -->
