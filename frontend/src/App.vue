@@ -242,9 +242,13 @@ watchEffect(async () => {
     <div
       class="flex justify-between mb-12 flex-col items-start gap-3 md:items-center md:flex-row"
     >
-      <div>
-        <h1 class="text-3xl font-bold">Instant Weather Data</h1>
+      
+      <div class="flex space-x-3">
+        <img src="/wslogo.svg" class="h-12 my-auto"/>
+        <div>
+          <h1 class="text-3xl font-bold">Instant Weather Data</h1>
         <h2 class="text-lg opacity-70"><img class="inline w-6" src="https://img.icons8.com/fluency/48/place-marker.png"/>Mirandola, Modena, Italy</h2>
+        </div>
       </div>
 
       <button
