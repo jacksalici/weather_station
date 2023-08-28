@@ -3,8 +3,8 @@ import { onMounted, onUnmounted, watch, ref, watchEffect } from "vue";
 import moment from "moment";
 import Stat from "./components/Stat.vue";
 import Stats from "./components/Stats.vue";
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+
 import Cookies from "js-cookie";
 
 const date = ref();
@@ -249,7 +249,7 @@ watchEffect(async () => {
       <div class="flex space-x-3 flex-row-reverse md:flex-row">
         <div class="w-full">
           <h1 class="text-3xl font-bold">Weather Data</h1>
-          <h2 class="text-lg opacity-70">
+          <h2 class="text-lg">
             <img
               class="inline w-6"
               src="https://img.icons8.com/fluency/48/place-marker.png"
@@ -268,26 +268,10 @@ watchEffect(async () => {
         </div>
       </div>
 
-      <div class="tabs tabs-boxed mx-auto mt-4 md:ml-auto md:mr-0">
-        <button
-          class="tab"
-          :class="{ 'tab-active': tab_daily_active }"
-          @click="tab_daily_active = true"
-        >
-          Current Weather
-        </button>
-        <button
-          class="tab"
-          :class="{ 'tab-active': !tab_daily_active }"
-          @click="tab_daily_active = false"
-        >
-          Historical Weather
-        </button>
-      </div>
     </div>
 
     <!-- CURRENT DATA -->
-    <div v-if="tab_daily_active">
+    <div>
       <Stats>
         <!--RAIN-->
         <Stat
@@ -382,14 +366,6 @@ watchEffect(async () => {
       </Stats>
     </div>
 
-    <!-- HISTORIC DATA -->
-    <div v-else>
-      <p>
-      You know that curiosity killed the cat, don't you? Just kidding, but this
-      section is still under development, please check it out later. TYSM.
-      </p>
-
-    </div>
 
     <!-- FOOTER AND OTHER DATA -->
     <footer class="footer footer-center mt-auto">

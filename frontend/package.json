@@ -8,15 +8,17 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@vuepic/vue-datepicker": "^6.0.2",
     "chart.js": "^4.3.0",
     "chartjs-plugin-zoom": "^2.0.1",
+    "dayjs": "^1.11.9",
     "js-cookie": "^3.0.3",
     "moment": "^2.29.4",
     "vue": "^3.2.31",
-    "vue-chartjs": "^5.2.0"
+    "vue-chartjs": "^5.2.0",
+    "vue-tailwind-datepicker": "^1.4.6"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.5",
     "@tailwindcss/typography": "^0.5.9",
     "@vitejs/plugin-vue": "^2.2.4",
     "@vue/compiler-sfc": "^3.2.31",
